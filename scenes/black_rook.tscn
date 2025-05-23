@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://dmkqpsvaef6lh"]
+
+[ext_resource type="PackedScene" uid="uid://ipg13j1pg6ll" path="res://scenes/abstract_rook.tscn" id="1_e7awl"]
+[ext_resource type="Script" path="res://scripts/black_rook.gd" id="2_ui7fb"]
+[ext_resource type="Texture2D" uid="uid://l6sbtn523i4b" path="res://assets/BlackPieces.png" id="3_8dyjt"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nfvii"]
+size = Vector2(12, 12)
+
+[node name="black_rook" instance=ExtResource("1_e7awl")]
+script = ExtResource("2_ui7fb")
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("3_8dyjt")
+region_enabled = true
+region_rect = Rect2(31.8, 0, 16, 16)
+
+[node name="CollisionShape2D" parent="." index="1"]
+shape = SubResource("RectangleShape2D_nfvii")
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]

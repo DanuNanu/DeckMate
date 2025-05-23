@@ -53,6 +53,9 @@ func _unhandled_input(event):
 			if selected_piece:
 				selected_piece._unselect()
 			selected_piece = null
+			
+func get_occupied()->Dictionary:
+	return occupied
 
 func _on_piece_selected(piece: Area2D):
 	if selected_piece and selected_piece != piece:	

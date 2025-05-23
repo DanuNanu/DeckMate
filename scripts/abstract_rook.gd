@@ -1,5 +1,4 @@
 extends Area2D
-
 var is_selected = false
 @export var position_on_grid = Vector2i.ZERO
 var is_hovered = false
@@ -12,9 +11,7 @@ const TILE_SIZE = 16
 @onready var collider: CollisionShape2D = $CollisionShape2D
 @onready var board: Node2D = get_parent()
 
-
 @onready var tilemap: TileMap = get_parent().get_node("TileMap")
-
 
 func _on_mouse_entered() -> void:
 	is_hovered = true
@@ -22,6 +19,7 @@ func _on_mouse_entered() -> void:
 
 func _on_mouse_exited() -> void:
 	is_hovered = false
+
 
 func _select()->void:
 	is_selected = true
@@ -52,6 +50,13 @@ func get_pos()->Vector2i:
 
 func get_collider() -> CollisionShape2D:
 	return collider
-	
 
-		
+func is_cleared(target_tile: Vector2i, current_pos: Vector2i) -> bool:
+	var direction_vec = (target_tile - current_pos).sign()
+	var current = current_pos + direction_vec
+	var occupied = board.get_occupied()
+	while current != target_tile:
+		if occupied[current] != null:
+			return false
+		current += direction_vec
+	return true

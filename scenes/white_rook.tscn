@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://c6kgs2l55w1sb"]
+
+[ext_resource type="PackedScene" uid="uid://ipg13j1pg6ll" path="res://scenes/abstract_rook.tscn" id="1_vt3ns"]
+[ext_resource type="Script" path="res://scripts/white_rook.gd" id="2_r4im2"]
+[ext_resource type="Texture2D" uid="uid://bdqtn16oky3qn" path="res://assets/WhitePieces.png" id="3_pe24w"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l1k1p"]
+size = Vector2(12, 12)
+
+[node name="white_rook" instance=ExtResource("1_vt3ns")]
+script = ExtResource("2_r4im2")
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("3_pe24w")
+region_enabled = true
+region_rect = Rect2(31.8, 0, 16, 16)
+
+[node name="CollisionShape2D" parent="." index="1"]
+shape = SubResource("RectangleShape2D_l1k1p")
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]
