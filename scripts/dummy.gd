@@ -2,7 +2,7 @@ extends Area2D
 
 # === Configuration ===
 const TILE_SIZE := 16  # Make sure this matches your TileMap's cell size
-var position_on_grid: Vector2i = Vector2i(0, 7)  # Initial tile coordinates (not pixels)
+var position_on_grid: Vector2i = Vector2i(1, 6)  # Initial tile coordinates (not pixels)
 var is_selected = false
 var is_hovered:bool = false
 var just_moved:bool = false
@@ -38,9 +38,7 @@ func try_move_to(target_tile: Vector2i, tile_pos: Vector2):
 		position_on_grid = target_tile
 		global_position = tile_pos
 		print("Moved to ", position_on_grid, " (world position: ", global_position, ")")
-		is_selected = false
 	else:
-		is_selected = false
 		print("Invalid move")
 
 func _on_mouse_entered() -> void:
@@ -57,4 +55,7 @@ func _unselect() -> void:
 	is_selected = false
 	if not is_selected:	
 		print("meow 2")
+		
+func _select() -> void:
+	is_selected = true
 		

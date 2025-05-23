@@ -15,10 +15,6 @@ run/main_scene="res://deck_mate.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 
-[display]
-
-mouse_cursor/custom_image="res://assets/cursor.png"
-
 [input]
 
 Left_Button={
