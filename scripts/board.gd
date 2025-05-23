@@ -11,15 +11,40 @@ func _unhandled_input(event):
 		var grid_pos = tilemap.local_to_map(tilemap.get_global_mouse_position())
 		print("Clicked tile at: ", grid_pos)
 
-		if selected_piece and selected_piece.is_selected and occupied[grid_pos] == null:
-			var grid2 = Vector2i(grid_pos.x, grid_pos.y)
-			var previous_pos = selected_piece.get_pos()
-			var checker = selected_piece.try_move_to(grid2, tilemap.map_to_local(grid2))
-			selected_piece._unselect()
-			if checker:
-				occupied[selected_piece.get_pos()]= selected_piece
-				occupied[previous_pos] = null
-			selected_piece = null
+		if selected_piece and selected_piece.is_selected:
+			if occupied[grid_pos] == null:
+				var grid2 = Vector2i(grid_pos.x, grid_pos.y)
+				var previous_pos = selected_piece.get_pos()
+				var checker = selected_piece.try_move_to(grid2, tilemap.map_to_local(grid2))
+				selected_piece._unselect()
+				if checker:
+					occupied[selected_piece.get_pos()]= selected_piece
+					occupied[previous_pos] = null
+				selected_piece = null
+			#elif for when occupied but by different colour
+			elif occupied[grid_pos].get_colour() != selected_piece.get_colour():
+				var grid2 = Vector2i(grid_pos.x, grid_pos.y)
+				var prevous_pos = selected_piece.get_pos()
+				var checker = selected_piece.try_pawn_take_over(grid2, tilemap.map_to_local(grid2))
+				selected_piece._unselect()
+				if checker:
+					var old_piece = occupied[grid_pos]
+					old_piece.visible = false
+					old_piece.set_deferred("monitoring", false)
+					var shape = old_piece.get_collider()
+					if shape:
+						shape.disabled = true
+					else:
+						print("couldnt find shape")
+					occupied[selected_piece.get_pos()] = selected_piece
+					occupied[prevous_pos] = null
+				selected_piece = null
+				#else for when selected piece same colour
+			else:
+				if selected_piece:
+					selected_piece._unselect()
+				selected_piece = null
+		#case when piece not selected or piece not selected- bit redundant
 		else: 
 			if selected_piece:
 				selected_piece._unselect()
@@ -32,8 +57,8 @@ func _on_piece_selected(piece: Area2D):
 	selected_piece._select()
 
 func _ready() -> void:
-	for x in range(7):
-		for y in range(7):
+	for x in range(8):
+		for y in range(8):
 			occupied[Vector2i(x,y)] = null
 	for child in get_children():
 		if child.has_signal("piece_selected"):

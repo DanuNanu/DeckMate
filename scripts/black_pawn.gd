@@ -10,7 +10,7 @@ var piece_type
 var colour
 const TILE_SIZE = 16
 @onready var le_sprite: Sprite2D = $Area2D/Sprite2D
-@onready var collision_shape_2d: CollisionShape2D = $Area2D/CollisionShape2D
+@onready var collider: CollisionShape2D = $CollisionShape2D2
 
 signal piece_selected(Area2D)
 
@@ -60,7 +60,9 @@ func intial_pos_setter(pos: Vector2i) -> void:
 	
 func get_pos()->Vector2i:
 	return position_on_grid
-	
+
+func get_collider() -> CollisionShape2D:
+	return collider
 	
 #function to handle input handling for mouse clicks
 func _input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
@@ -94,6 +96,19 @@ func try_move_to(target_tile: Vector2i, tile_pos: Vector2)-> bool:
 		return false
 		
 		
+#case when pawn needs to move diagnolly and take over piece
+func try_pawn_take_over(target_tile: Vector2i, tile_pos: Vector2) -> bool:
+	var dx = abs(target_tile.x - position_on_grid.x)
+	var dy = target_tile.y - position_on_grid.y
+	if is_selected and dx == 1 and dy == -1:
+		just_moved = true
+		position_on_grid = target_tile
+		global_position = tile_pos
+		print("Black pawn takes over piece at ", position_on_grid)
+		return true
+	else:
+		print("Invalid move")
+		return false
 #todo:
 #tidy up code
 #implement moving diagnolly during takeovers 
