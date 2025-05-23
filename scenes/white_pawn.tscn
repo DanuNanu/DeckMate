@@ -10,7 +10,7 @@ var is_selected = false
 @export var position_on_grid = Vector2i.ZERO
 var is_hovered = false
 var just_moved = false
-enum Piece_type {PAWN, ROOK, KNIGHT, BISHOP, QUEEN, KING}
+enum Piece_type {PAWN = 0, ROOK = 1, KNIGHT = 2, BISHOP = 3, QUEEN = 4, KING = 5}
 enum Piece_colour {WHITE = 0, BLACK = -1}
 var piece_type 
 var colour

@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="DeckMate"
-run/main_scene="res://deck_mate.tscn"
+run/main_scene="res://scenes/deck_mate.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 

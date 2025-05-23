@@ -25,7 +25,11 @@ func _unhandled_input(event):
 			elif occupied[grid_pos].get_colour() != selected_piece.get_colour():
 				var grid2 = Vector2i(grid_pos.x, grid_pos.y)
 				var prevous_pos = selected_piece.get_pos()
-				var checker = selected_piece.try_pawn_take_over(grid2, tilemap.map_to_local(grid2))
+				var checker
+				if (selected_piece._get_piece_type() == 0):
+					checker = selected_piece.try_pawn_take_over(grid2, tilemap.map_to_local(grid2))
+				else:
+					checker = selected_piece.try_take_over(grid2, tilemap.map_to_local(grid2))
 				selected_piece._unselect()
 				if checker:
 					var old_piece = occupied[grid_pos]
