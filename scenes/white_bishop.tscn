@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://cdiuqdbubxgtx"]
+
+[ext_resource type="PackedScene" uid="uid://efuhw3jnug8a" path="res://scenes/abstract_bishop.tscn" id="1_1fjsk"]
+[ext_resource type="Script" path="res://scripts/white_bishop.gd" id="2_ynwc2"]
+[ext_resource type="Texture2D" uid="uid://bdqtn16oky3qn" path="res://assets/WhitePieces.png" id="3_xjef3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_16qci"]
+size = Vector2(12, 12)
+
+[node name="white_bishop" instance=ExtResource("1_1fjsk")]
+script = ExtResource("2_ynwc2")
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("3_xjef3")
+region_enabled = true
+region_rect = Rect2(47.5, 0, 16, 16)
+
+[node name="CollisionShape2D" parent="." index="1"]
+shape = SubResource("RectangleShape2D_16qci")
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]
