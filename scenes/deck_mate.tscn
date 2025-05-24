@@ -1,12 +1,14 @@
-[gd_scene load_steps=12 format=3 uid="uid://c6aqk0ppdhd17"]
+[gd_scene load_steps=14 format=3 uid="uid://c6aqk0ppdhd17"]
 
 [ext_resource type="Script" path="res://scripts/board.gd" id="1_421dt"]
 [ext_resource type="PackedScene" uid="uid://c7g7o7xku154v" path="res://scenes/tile_map.tscn" id="2_i8235"]
 [ext_resource type="PackedScene" uid="uid://cdiuqdbubxgtx" path="res://scenes/white_bishop.tscn" id="3_0eutl"]
+[ext_resource type="PackedScene" uid="uid://4cusx0n5xni5" path="res://scenes/white_queen.tscn" id="3_1pm87"]
 [ext_resource type="PackedScene" uid="uid://cnel8k3lwhp80" path="res://scenes/black_bishop.tscn" id="3_0261y"]
 [ext_resource type="PackedScene" uid="uid://dmkqpsvaef6lh" path="res://scenes/black_rook.tscn" id="3_erwgb"]
 [ext_resource type="PackedScene" uid="uid://cgd6rmpeyonk2" path="res://scenes/black_knight.tscn" id="3_fcmyb"]
 [ext_resource type="PackedScene" uid="uid://c6kgs2l55w1sb" path="res://scenes/white_rook.tscn" id="3_fiavu"]
+[ext_resource type="PackedScene" uid="uid://bpg5vfigfmbqy" path="res://scenes/black_queen.tscn" id="3_lu6fs"]
 [ext_resource type="PackedScene" uid="uid://dkuf7kbmxsjl8" path="res://scenes/white_knight.tscn" id="3_n8axi"]
 [ext_resource type="PackedScene" uid="uid://bjriwkg1e4yoo" path="res://scenes/white_pawn.tscn" id="4_p2n1g"]
 [ext_resource type="Script" path="res://scripts/white_knight.gd" id="5_8wugu"]
@@ -21,6 +23,14 @@ position = Vector2(0, -1)
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(65, 65)
 zoom = Vector2(4, 4)
+
+[node name="White_Queen" parent="." instance=ExtResource("3_1pm87")]
+position = Vector2(56, 7)
+position_on_grid = Vector2i(3, 0)
+
+[node name="black_queen" parent="." instance=ExtResource("3_lu6fs")]
+position = Vector2(56, 119)
+position_on_grid = Vector2i(3, 7)
 
 [node name="white_knight2" parent="." instance=ExtResource("3_n8axi")]
 position = Vector2(104, 7)

@@ -24,7 +24,6 @@ func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 func try_move_to(target_tile: Vector2i, tile_pos: Vector2)-> bool:
 	var dx = target_tile.x - position_on_grid.x
 	var dy = target_tile.y - position_on_grid.y
-	var cleared = is_cleared(target_tile, position_on_grid)
 	if is_selected and ((dx == 0 and dy != 0) or (dy == 0 and dx != 0)):
 		if is_cleared(target_tile, position_on_grid):
 			just_moved = true
