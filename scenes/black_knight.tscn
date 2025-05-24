@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://cgd6rmpeyonk2"]
+
+[ext_resource type="PackedScene" uid="uid://bduh7qpme0uti" path="res://scenes/abstrac_knight.tscn" id="1_51tlw"]
+[ext_resource type="Script" path="res://scripts/black_knight.gd" id="2_km7e1"]
+[ext_resource type="Texture2D" uid="uid://l6sbtn523i4b" path="res://assets/BlackPieces.png" id="3_tnnlu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_51rxo"]
+size = Vector2(12, 12)
+
+[node name="black_knight" instance=ExtResource("1_51tlw")]
+script = ExtResource("2_km7e1")
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("3_tnnlu")
+region_enabled = true
+region_rect = Rect2(16, 0, 16, 16)
+
+[node name="CollisionShape2D" parent="." index="1"]
+shape = SubResource("RectangleShape2D_51rxo")
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]
