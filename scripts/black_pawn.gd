@@ -85,15 +85,21 @@ func try_move_to(target_tile: Vector2i, tile_pos: Vector2)-> bool:
 	var dx = target_tile.x - position_on_grid.x
 	var dy = target_tile.y - position_on_grid.y
 	var direction = -1 if colour == Piece_colour.BLACK else 1
-	if is_selected and dx == 0 and dy == direction:
-		just_moved = true
-		position_on_grid = target_tile
-		global_position = tile_pos
-		print("Moved black pawn to ", position_on_grid, " (world position: ", global_position, ")")
-		return true
-	else:
-		print("Invalid move")
-		return false
+	if is_selected :
+		if dx == 0 and dy == direction:
+			just_moved = true
+			position_on_grid = target_tile
+			global_position = tile_pos
+			print("Moved black pawn to ", position_on_grid, " (world position: ", global_position, ")")
+			return true
+		elif (dy == -2 and dx == 0 and position_on_grid.y == 6):
+			just_moved = true
+			position_on_grid = target_tile
+			global_position = tile_pos
+			print("Moved Black pawn to ", position_on_grid, " (world position: ", global_position, ")" )
+			return true
+	print("Invalid move")
+	return false
 		
 		
 #case when pawn needs to move diagnolly and take over piece
