@@ -47,7 +47,7 @@ position = Vector2(104, 7)
 position_on_grid = Vector2i(6, 0)
 
 [node name="white_knight" parent="." instance=ExtResource("3_n8axi")]
-position = Vector2(23, 7)
+position = Vector2(24, 7)
 position_on_grid = Vector2i(1, 0)
 
 [node name="black_knight" parent="." instance=ExtResource("3_fcmyb")]
@@ -91,7 +91,7 @@ position = Vector2(88, 119)
 position_on_grid = Vector2i(5, 7)
 
 [node name="white_pawn3" parent="." instance=ExtResource("4_p2n1g")]
-position = Vector2(7, 23)
+position = Vector2(8, 23)
 position_on_grid = Vector2i(0, 1)
 
 [node name="white_pawn2" parent="." instance=ExtResource("4_p2n1g")]
@@ -103,55 +103,55 @@ position = Vector2(40, 23)
 position_on_grid = Vector2i(2, 1)
 
 [node name="white_pawn4" parent="." instance=ExtResource("4_p2n1g")]
-position = Vector2(56, 22)
+position = Vector2(56, 23)
 position_on_grid = Vector2i(3, 1)
 
 [node name="white_pawn5" parent="." instance=ExtResource("4_p2n1g")]
-position = Vector2(72, 22)
+position = Vector2(72, 23)
 position_on_grid = Vector2i(4, 1)
 
 [node name="white_pawn6" parent="." instance=ExtResource("4_p2n1g")]
-position = Vector2(87, 22)
+position = Vector2(88, 23)
 position_on_grid = Vector2i(5, 1)
 
 [node name="white_pawn8" parent="." instance=ExtResource("4_p2n1g")]
-position = Vector2(119, 22)
+position = Vector2(120, 23)
 position_on_grid = Vector2i(7, 1)
 
 [node name="white_pawn7" parent="." instance=ExtResource("4_p2n1g")]
-position = Vector2(103, 22)
+position = Vector2(104, 23)
 position_on_grid = Vector2i(6, 1)
 
 [node name="black_pawn7" parent="." instance=ExtResource("5_mot7x")]
-position = Vector2(120, 103)
+position = Vector2(120, 101)
 position_on_grid = Vector2i(7, 6)
 
 [node name="black_pawn6" parent="." instance=ExtResource("5_mot7x")]
-position = Vector2(104, 103)
+position = Vector2(104, 101)
 position_on_grid = Vector2i(6, 6)
 
 [node name="black_pawn5" parent="." instance=ExtResource("5_mot7x")]
-position = Vector2(88, 103)
+position = Vector2(88, 101)
 position_on_grid = Vector2i(5, 6)
 
 [node name="black_pawn4" parent="." instance=ExtResource("5_mot7x")]
-position = Vector2(72, 103)
+position = Vector2(72, 101)
 position_on_grid = Vector2i(4, 6)
 
 [node name="black_pawn3" parent="." instance=ExtResource("5_mot7x")]
-position = Vector2(56, 103)
+position = Vector2(56, 101)
 position_on_grid = Vector2i(3, 6)
 
 [node name="black_pawn2" parent="." instance=ExtResource("5_mot7x")]
-position = Vector2(40, 103)
+position = Vector2(40, 101)
 position_on_grid = Vector2i(2, 6)
 
 [node name="Black_pawn" parent="." instance=ExtResource("5_mot7x")]
-position = Vector2(8, 103)
+position = Vector2(8, 101)
 position_on_grid = Vector2i(0, 6)
 
 [node name="black_pawn" parent="." instance=ExtResource("5_mot7x")]
-position = Vector2(24, 103)
+position = Vector2(24, 101)
 position_on_grid = Vector2i(1, 6)
 
 [connection signal="ready" from="TileMap" to="." method="_on_tile_map_ready"]

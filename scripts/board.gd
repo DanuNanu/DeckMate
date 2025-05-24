@@ -2,8 +2,8 @@ extends Node2D
 
 @onready var tilemap := $TileMap
 var selected_piece = null
-enum states{UNOCCUPIED = 0, OCCUPIED = 1}
 var occupied = {}
+var turn = 0
 #handles collison properly for when black pieces block
 #need to fix so that when white pieces it takes over piece
 func _unhandled_input(event):
@@ -11,7 +11,7 @@ func _unhandled_input(event):
 		var grid_pos = tilemap.local_to_map(tilemap.get_global_mouse_position())
 		print("Clicked tile at: ", grid_pos)
 
-		if selected_piece and selected_piece.is_selected:
+		if selected_piece and selected_piece.is_selected and selected_piece.get_colour() == turn:
 			if occupied[grid_pos] == null:
 				var grid2 = Vector2i(grid_pos.x, grid_pos.y)
 				var previous_pos = selected_piece.get_pos()
@@ -20,6 +20,7 @@ func _unhandled_input(event):
 				if checker:
 					occupied[selected_piece.get_pos()]= selected_piece
 					occupied[previous_pos] = null
+					turn = 0 if selected_piece.get_colour() == -1 else -1
 				selected_piece = null
 			#elif for when occupied but by different colour
 			elif occupied[grid_pos].get_colour() != selected_piece.get_colour():
@@ -36,6 +37,7 @@ func _unhandled_input(event):
 					old_piece.visible = false
 					old_piece.set_deferred("monitoring", false)
 					var shape = old_piece.get_collider()
+					turn = 0 if selected_piece.get_colour() == -1 else -1
 					if shape:
 						shape.disabled = true
 					else:
