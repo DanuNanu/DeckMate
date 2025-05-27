@@ -11,10 +11,10 @@ var colour
 const TILE_SIZE = 16
 @onready var collider: CollisionShape2D = $CollisionShape2D
 @onready var board: Node2D = get_parent()
-
-
+@onready var highlight_map := get_parent().get_node("Highlight")
+@onready var sprite := $Sprite2D
 @onready var tilemap: TileMap = get_parent().get_node("TileMap")
-
+var offsets = [Vector2i(1,1), Vector2i(-1,1), Vector2i(1,-1), Vector2i(-1,-1)]
 
 func _on_mouse_entered() -> void:
 	is_hovered = true
@@ -28,6 +28,8 @@ func _select()->void:
 	
 func _unselect()->void:
 	is_selected = false
+	highlight_map.clear()
+	sprite.modulate = Color(1,1,1)
 
 func _set_piece_type(type: int):
 	piece_type = type
@@ -52,6 +54,24 @@ func get_pos()->Vector2i:
 
 func get_collider() -> CollisionShape2D:
 	return collider
-	
 
-		
+func get_moves() -> Array:
+	var moves = []
+	var occupied = board.get_occupied()
+	for offset in offsets:
+		var step = 1
+		while true:
+			var new_pos = position_on_grid + (offset * step)
+			if new_pos.x < 0 or new_pos.x > 7 or new_pos.y < 0 or new_pos.y > 7:
+				break  
+			if occupied[new_pos] != null:
+				if occupied[new_pos].get_colour() != self.get_colour():
+					moves.append(tilemap.map_to_local(new_pos))  
+				break  
+			moves.append(tilemap.map_to_local(new_pos))
+			step += 1
+	return moves
+			
+	 
+
+		#rook, queen, king

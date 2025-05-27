@@ -28,7 +28,7 @@ func _input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 # === Called externally to attempt a move ===
 func try_move_to(target_tile: Vector2i, tile_pos: Vector2):
 	var dx = abs(target_tile.x - position_on_grid.x)
-	var dy = abs(target_tile.y - position_on_grid.y)
+	var dy = abs( target_tile.y - position_on_grid.y)
 
 	print("Attempting to move from ", position_on_grid, " to ", target_tile)
 

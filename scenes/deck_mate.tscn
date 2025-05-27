@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://c6aqk0ppdhd17"]
+[gd_scene load_steps=19 format=3 uid="uid://c6aqk0ppdhd17"]
 
 [ext_resource type="Script" path="res://scripts/board.gd" id="1_421dt"]
 [ext_resource type="PackedScene" uid="uid://c7g7o7xku154v" path="res://scenes/tile_map.tscn" id="2_i8235"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://cgd6rmpeyonk2" path="res://scenes/black_knight.tscn" id="3_fcmyb"]
 [ext_resource type="PackedScene" uid="uid://c6kgs2l55w1sb" path="res://scenes/white_rook.tscn" id="3_fiavu"]
 [ext_resource type="PackedScene" uid="uid://o1skncdv1mn8" path="res://scenes/white_king.tscn" id="3_ggbb0"]
+[ext_resource type="Script" path="res://scripts/highlight.gd" id="3_hirv3"]
 [ext_resource type="PackedScene" uid="uid://bpg5vfigfmbqy" path="res://scenes/black_queen.tscn" id="3_lu6fs"]
 [ext_resource type="PackedScene" uid="uid://dkuf7kbmxsjl8" path="res://scenes/white_knight.tscn" id="3_n8axi"]
 [ext_resource type="PackedScene" uid="uid://bdgutpl6dpwr2" path="res://scenes/black_king.tscn" id="3_rojuh"]
@@ -25,6 +26,9 @@ script = ExtResource("1_421dt")
 
 [node name="TileMap" parent="." instance=ExtResource("2_i8235")]
 position = Vector2(0, -1)
+
+[node name="Highlight" type="Node2D" parent="."]
+script = ExtResource("3_hirv3")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(65, 65)
@@ -166,10 +170,13 @@ offset_bottom = -9.0
 label_settings = SubResource("LabelSettings_ewjqd")
 
 [node name="OptionButton" parent="." instance=ExtResource("16_722ir")]
-offset_left = 44.0
-offset_top = 149.0
-offset_right = 76.0
-offset_bottom = 169.0
+offset_left = 45.0
+offset_top = 144.0
+offset_right = 90.0
+offset_bottom = 164.0
+alignment = 1
+icon_alignment = 1
 
 [connection signal="ready" from="TileMap" to="." method="_on_tile_map_ready"]
 [connection signal="ready" from="TileMap" to="TileMap" method="_on_ready"]
+[connection signal="draw" from="Highlight" to="Highlight" method="_on_draw"]

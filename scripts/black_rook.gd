@@ -19,6 +19,9 @@ func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 			var mouse_event := event as InputEventMouseButton
 			if mouse_event.button_index== MOUSE_BUTTON_LEFT and mouse_event.pressed:
 				is_selected = true
+				sprite.modulate = Color(1,1,0)
+				var legal_moves = get_moves()
+				highlight_map.show_light(legal_moves)
 				emit_signal("piece_selected", self)
 				print("black rook selected at tile: ", position_on_grid)
 
@@ -32,8 +35,11 @@ func try_move_to(target_tile: Vector2i, tile_pos: Vector2)-> bool:
 			position_on_grid = target_tile
 			global_position = tile_pos
 			print("Moved black rook to ", position_on_grid, " (world position: ", global_position, ")")
+			highlight_map.clear()
 			return true
 	print("Invalid move")
+	sprite.modulate = Color(1,1,1)
+	highlight_map.clear()
 	return false
 		
 func try_take_over(target_tile: Vector2i, tile_pos: Vector2) -> bool:
@@ -45,8 +51,11 @@ func try_take_over(target_tile: Vector2i, tile_pos: Vector2) -> bool:
 			position_on_grid = target_tile
 			global_position = tile_pos
 			print("Black rook takes over piece at ", position_on_grid, " (world position: ", global_position, ")")
+			highlight_map.clear()
 			return true
 	print("Invalid move")
+	sprite.modulate = Color(1,1,1)
+	highlight_map.clear()
 	return false
 		
 

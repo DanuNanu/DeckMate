@@ -9,13 +9,12 @@ enum Piece_colour {WHITE = 0, BLACK = -1}
 var piece_type 
 var colour
 const TILE_SIZE = 16
-@onready var le_sprite: Sprite2D = $Area2D/Sprite2D
 @onready var collider: CollisionShape2D = $CollisionShape2D2
 @onready var board: Node2D = get_parent()
 signal piece_selected(Area2D)
-
+@onready var highlight_map:= get_parent().get_node("Highlight")
 @onready var tilemap: TileMap = get_parent().get_node("TileMap")
-
+@onready var sprite:= $Sprite2D2
 
 
 		
@@ -31,7 +30,10 @@ func _on_mouse_exited() -> void:
 	print("zero")
 	
 # setter to set selected to false
+#clear everytime unselected
 func _unselect() -> void:
+	highlight_map.clear()
+	sprite.modulate = Color(1,1,1)
 	is_selected = false
 	
 #setter to set selected to trye
@@ -76,6 +78,9 @@ func _input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 			var mouse_event := event as InputEventMouseButton
 			if mouse_event.button_index== MOUSE_BUTTON_LEFT and mouse_event.pressed:
 				is_selected = true
+				sprite.modulate = Color(1,1,0)
+				var legal_moves = get_moves()
+				highlight_map.show_light(legal_moves)
 				emit_signal("piece_selected", self)
 				print("black pawn selected at tile: ", position_on_grid)
 
@@ -93,14 +98,20 @@ func try_move_to(target_tile: Vector2i, tile_pos: Vector2)-> bool:
 			position_on_grid = target_tile
 			global_position = tile_pos
 			print("Moved black pawn to ", position_on_grid, " (world position: ", global_position, ")")
+			sprite.modulate = Color(1,1,1)
+			highlight_map.clear()
 			return true
-		elif (dy == -2 and dx == 0 and position_on_grid.y == 6):
+		elif (dy == -2 and dx == 0 and position_on_grid.y == 6 and is_cleared(target_tile, position_on_grid)):
 			just_moved = true
 			position_on_grid = target_tile
 			global_position = tile_pos
 			print("Moved Black pawn to ", position_on_grid, " (world position: ", global_position, ")" )
+			sprite.modulate = Color(1,1,1)
+			highlight_map.clear()
 			return true
 	print("Invalid move")
+	sprite.modulate = Color(1,1,1)
+	highlight_map.clear()
 	return false
 		
 		
@@ -113,9 +124,13 @@ func try_pawn_take_over(target_tile: Vector2i, tile_pos: Vector2) -> bool:
 		position_on_grid = target_tile
 		global_position = tile_pos
 		print("Black pawn takes over piece at ", position_on_grid)
+		sprite.modulate = Color(1,1,1)
+		highlight_map.clear()
 		return true
 	else:
 		print("Invalid move")
+		sprite.modulate = Color(1,1,1)
+		highlight_map.clear()
 		return false
 		
 		
@@ -154,6 +169,42 @@ func promotion(target_tile: Vector2i, tile_pos:Vector2, index: int) -> Area2D:
 	else:
 		return null
 		
+		
+
+func is_cleared(target_tile: Vector2i, current_pos: Vector2i) -> bool:
+	var direction_vec = (target_tile - current_pos).sign()
+	var current = current_pos + direction_vec
+	var occupied = board.get_occupied()
+	while current != target_tile:
+		if occupied[current] != null:
+			return false
+		current += direction_vec
+	return true
+	
+	
+func get_moves()->Array:
+	var moves = []
+	var direction = -1
+	var ahead = position_on_grid + Vector2i(0, direction)
+	var occupied = board.get_occupied()
+	if occupied[ahead] == null:
+		moves.append(tilemap.map_to_local(ahead))
+	
+	var ahead2 = ahead + Vector2i(0, direction)
+	if position_on_grid.y == 6 and occupied[ahead] == null and occupied[ahead2] == null:
+		
+		moves.append(tilemap.map_to_local(ahead2))
+		
+	for dx in [1,-1]:
+		var diagnol = position_on_grid + Vector2i(dx, direction)
+		if (diagnol.x < 0 or diagnol.x > 7 or diagnol.y < 0 or diagnol.y > 0):
+			continue
+		var piece = occupied[diagnol]
+		if piece != null and piece.get_colour() != self.colour:
+			moves.append(tilemap.map_to_local(diagnol))
+			
+	return moves
+	
 #todo:
 #tidy up code
 #implement moving diagnolly during takeovers 

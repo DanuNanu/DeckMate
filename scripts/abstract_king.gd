@@ -11,7 +11,7 @@ var colour
 const TILE_SIZE = 16
 @onready var collider: CollisionShape2D = $CollisionShape2D
 @onready var board: Node2D = get_parent()
-
+@onready var sprite:= $Sprite2D
 @onready var tilemap: TileMap = get_parent().get_node("TileMap")
 
 
@@ -21,6 +21,7 @@ func _select()->void:
 	
 func _unselect()->void:
 	is_selected = false
+	sprite.modulate = Color(1,1,1)
 
 func _set_piece_type(type: int):
 	piece_type = type

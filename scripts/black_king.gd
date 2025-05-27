@@ -17,6 +17,7 @@ func try_move_to(target_tile: Vector2i, tile_pos: Vector2)-> bool:
 			print("Moved black King to ", position_on_grid, " (world position: ", global_position, ")")
 			return true
 	print("Invalid move")
+	sprite.modulate = Color(1,1,1)
 	return false
 		
 func try_take_over(target_tile: Vector2i, tile_pos: Vector2) -> bool:
@@ -30,6 +31,7 @@ func try_take_over(target_tile: Vector2i, tile_pos: Vector2) -> bool:
 			print("Black King takes over piece at ", position_on_grid, " (world position: ", global_position, ")")
 			return true
 	print("Invalid move")
+	sprite.modulate = Color(1,1,1)
 	return false
 		
 
@@ -50,5 +52,6 @@ func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 			var mouse_event := event as InputEventMouseButton
 			if mouse_event.button_index== MOUSE_BUTTON_LEFT and mouse_event.pressed:
 				is_selected = true
+				sprite.modulate = Color(1,1,0)
 				emit_signal("piece_selected", self)
 				print("black King selected at tile: ", position_on_grid)
