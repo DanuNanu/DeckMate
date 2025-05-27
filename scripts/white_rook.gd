@@ -8,6 +8,8 @@ func _ready() -> void:
 
 
 func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
+	if board.input_lock:
+		return
 	if just_moved:
 		just_moved = false
 		return

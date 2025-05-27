@@ -43,6 +43,8 @@ func try_take_over(target_tile: Vector2i, tile_pos: Vector2) -> bool:
 	
 
 func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
+	if board.input_lock:
+		return
 	if just_moved:
 		just_moved = false
 		return

@@ -66,6 +66,8 @@ func get_collider() -> CollisionShape2D:
 	
 #function to handle input handling for mouse clicks
 func _input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
+	if board.input_lock:
+		return
 	if just_moved:
 		just_moved = false
 		return
@@ -117,22 +119,38 @@ func try_pawn_take_over(target_tile: Vector2i, tile_pos: Vector2) -> bool:
 		return false
 		
 		
-func promotion_to_queen(target_tile: Vector2i, tile_pos:Vector2) -> Area2D:
+func promotion(target_tile: Vector2i, tile_pos:Vector2, index: int) -> Area2D:
 	if position_on_grid.y == 0:
-		var queen_scene = preload("res://scenes/black_queen.tscn")
-		var queen = queen_scene.instantiate()
-		board.add_child(queen)
-		queen.global_position = tile_pos
-		queen.intial_pos_setter(target_tile)
-		queen.just_moved = true
-		queen.input_pickable = true
-		queen.connect("mouse_entered", Callable(queen, "_on_mouse_entered"))
-		queen.connect("mouse_exited", Callable(queen,"_on_mouse_exited"))
-		queen.connect("piece_selected", Callable(board, "_on_piece_selected"))
+		var piece_unloaded
+		var text
+		match index:
+			0: 
+				piece_unloaded = preload("res://scenes/black_queen.tscn")	
+				text= "Black Queen"
+			1: 
+				piece_unloaded = preload("res://scenes/black_rook.tscn")
+				text = "Black Rook"
+			2: 
+				piece_unloaded = preload("res://scenes/black_knight.tscn")
+				text = "Black Knight"
+			3: 
+				piece_unloaded = preload("res://scenes/black_bishop.tscn")
+				text = "Black Bishop"
+			
+			_: print("error with path: couldn't load scene")
+		var piece = piece_unloaded.instantiate()
+		board.add_child(piece)
+		piece.global_position = tile_pos
+		piece.intial_pos_setter(target_tile)
+		piece.just_moved = true
+		piece.input_pickable = true
+		piece.connect("mouse_entered", Callable(piece, "_on_mouse_entered"))
+		piece.connect("mouse_exited", Callable(piece,"_on_mouse_exited"))
+		piece.connect("piece_selected", Callable(board, "_on_piece_selected"))
 		self.visible = false
 		collider.disabled = true
-		print("black pawn promoted to black queen")
-		return queen
+		print("black pawn promoted to ", text, "")
+		return piece
 	else:
 		return null
 		

@@ -108,22 +108,37 @@ func try_pawn_take_over(target_tile: Vector2i, tile_pos: Vector2) -> bool:
 #implement en passant
 #idea to implement take over if a piece of a different colour occupies the same space as piece of another colour remove the piece
 
-func promotion_to_queen(target_tile: Vector2i, tile_pos:Vector2) -> Area2D:
+func promotion(target_tile: Vector2i, tile_pos:Vector2, index:int) -> Area2D:
 	if position_on_grid.y == 7:
-		var queen_scene = preload(\"res://scenes/white_queen.tscn\")
-		var queen = queen_scene.instantiate()
-		board.add_child(queen)
-		queen.global_position = tile_pos
-		queen.intial_pos_setter(target_tile)
-		queen.connect(\"mouse_entered\", Callable(queen, \"_on_mouse_entered\"))
-		queen.connect(\"mouse_exited\", Callable(queen,\"_on_mouse_exited\"))
-		queen.connect(\"piece_selected\", Callable(board, \"_on_piece_selected\"))
-		queen.input_pickable = true
-		queen.just_moved = true
+		var piece_unloaded
+		var text
+		match index:
+			0:
+				piece_unloaded = preload(\"res://scenes/white_queen.tscn\")
+				text = \"White Queen\"
+			1: 
+				piece_unloaded = preload(\"res://scenes/white_rook.tscn\")
+				text = \"White Rook\"
+			2:
+				piece_unloaded = preload(\"res://scenes/white_knight.tscn\")
+				text = \"White Knight\"
+			3: 
+				piece_unloaded = preload(\"res://scenes/white_bishop.tscn\")
+				text = \"White Bishop\"
+			_: print(\"error couldn't load a scene\")
+		var piece = piece_unloaded.instantiate()
+		board.add_child(piece)
+		piece.global_position = tile_pos
+		piece.intial_pos_setter(target_tile)
+		piece.connect(\"mouse_entered\", Callable(piece, \"_on_mouse_entered\"))
+		piece.connect(\"mouse_exited\", Callable(piece,\"_on_mouse_exited\"))
+		piece.connect(\"piece_selected\", Callable(board, \"_on_piece_selected\"))
+		piece.input_pickable = true
+		piece.just_moved = true
 		self.visible = false
 		collider.disabled = true
-		print(\"white pawn promoted to white queen\")
-		return queen
+		print(\"white pawn promoted to white \", text,  \"\")
+		return piece
 	else:
 		return null
 
@@ -139,6 +154,8 @@ func _on_mouse_exited() -> void:
 
 
 func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
+	if board.input_lock:
+		return
 	if just_moved:
 		just_moved = false
 		return

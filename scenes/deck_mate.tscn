@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://c6aqk0ppdhd17"]
+[gd_scene load_steps=18 format=3 uid="uid://c6aqk0ppdhd17"]
 
 [ext_resource type="Script" path="res://scripts/board.gd" id="1_421dt"]
 [ext_resource type="PackedScene" uid="uid://c7g7o7xku154v" path="res://scenes/tile_map.tscn" id="2_i8235"]
@@ -14,6 +14,11 @@
 [ext_resource type="PackedScene" uid="uid://bdgutpl6dpwr2" path="res://scenes/black_king.tscn" id="3_rojuh"]
 [ext_resource type="PackedScene" uid="uid://bjriwkg1e4yoo" path="res://scenes/white_pawn.tscn" id="4_p2n1g"]
 [ext_resource type="PackedScene" uid="uid://b7q3nq7ocivfp" path="res://scenes/black_pawn.tscn" id="5_mot7x"]
+[ext_resource type="FontFile" uid="uid://c3k4oxvcg4gvt" path="res://assets/Fake Receipt.otf" id="15_66u8v"]
+[ext_resource type="PackedScene" uid="uid://c0ipvqk14ddv" path="res://scenes/option_button.tscn" id="16_722ir"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ewjqd"]
+font = ExtResource("15_66u8v")
 
 [node name="DeckMate" type="Node2D"]
 script = ExtResource("1_421dt")
@@ -151,6 +156,20 @@ position_on_grid = Vector2i(0, 6)
 [node name="black_pawn" parent="." instance=ExtResource("5_mot7x")]
 position = Vector2(24, 101)
 position_on_grid = Vector2i(1, 6)
+
+[node name="Label" type="Label" parent="."]
+texture_filter = 3
+offset_left = 1.0
+offset_top = -32.0
+offset_right = 57.0
+offset_bottom = -9.0
+label_settings = SubResource("LabelSettings_ewjqd")
+
+[node name="OptionButton" parent="." instance=ExtResource("16_722ir")]
+offset_left = 44.0
+offset_top = 149.0
+offset_right = 76.0
+offset_bottom = 169.0
 
 [connection signal="ready" from="TileMap" to="." method="_on_tile_map_ready"]
 [connection signal="ready" from="TileMap" to="TileMap" method="_on_ready"]

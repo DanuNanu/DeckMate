@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://c0ipvqk14ddv"]
+
+[ext_resource type="Script" path="res://option_button.gd" id="1_cfdv8"]
+
+[node name="OptionButton" type="OptionButton"]
+offset_right = 32.0
+offset_bottom = 20.0
+script = ExtResource("1_cfdv8")
+
+[connection signal="item_selected" from="." to="." method="_on_item_selected"]
