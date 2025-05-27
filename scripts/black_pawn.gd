@@ -11,7 +11,7 @@ var colour
 const TILE_SIZE = 16
 @onready var le_sprite: Sprite2D = $Area2D/Sprite2D
 @onready var collider: CollisionShape2D = $CollisionShape2D2
-
+@onready var board: Node2D = get_parent()
 signal piece_selected(Area2D)
 
 @onready var tilemap: TileMap = get_parent().get_node("TileMap")
@@ -115,6 +115,27 @@ func try_pawn_take_over(target_tile: Vector2i, tile_pos: Vector2) -> bool:
 	else:
 		print("Invalid move")
 		return false
+		
+		
+func promotion_to_queen(target_tile: Vector2i, tile_pos:Vector2) -> Area2D:
+	if position_on_grid.y == 0:
+		var queen_scene = preload("res://scenes/black_queen.tscn")
+		var queen = queen_scene.instantiate()
+		board.add_child(queen)
+		queen.global_position = tile_pos
+		queen.intial_pos_setter(target_tile)
+		queen.just_moved = true
+		queen.input_pickable = true
+		queen.connect("mouse_entered", Callable(queen, "_on_mouse_entered"))
+		queen.connect("mouse_exited", Callable(queen,"_on_mouse_exited"))
+		queen.connect("piece_selected", Callable(board, "_on_piece_selected"))
+		self.visible = false
+		collider.disabled = true
+		print("black pawn promoted to black queen")
+		return queen
+	else:
+		return null
+		
 #todo:
 #tidy up code
 #implement moving diagnolly during takeovers 

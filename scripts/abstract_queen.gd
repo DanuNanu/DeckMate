@@ -59,7 +59,9 @@ func is_cleared(target_tile: Vector2i, current_pos: Vector2i) -> bool:
 
 func _on_mouse_entered() -> void:
 	is_hovered = true
+	print("entered queen area")
 
 
 func _on_mouse_exited() -> void:
 	is_hovered = false
+	print("exited queen area")

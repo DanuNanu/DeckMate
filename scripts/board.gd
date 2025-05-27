@@ -12,12 +12,17 @@ func _unhandled_input(event):
 		print("Clicked tile at: ", grid_pos)
 
 		if selected_piece and selected_piece.is_selected and selected_piece.get_colour() == turn:
+			#case when the tile trying to be moved to is unoccupied
 			if occupied[grid_pos] == null:
 				var grid2 = Vector2i(grid_pos.x, grid_pos.y)
 				var previous_pos = selected_piece.get_pos()
 				var checker = selected_piece.try_move_to(grid2, tilemap.map_to_local(grid2))
 				selected_piece._unselect()
 				if checker:
+					if selected_piece._get_piece_type() == 0:
+						var promoted_piece = selected_piece.promotion_to_queen(grid2, tilemap.map_to_local(grid2))
+						if promoted_piece != null:
+							selected_piece = promoted_piece
 					occupied[selected_piece.get_pos()]= selected_piece
 					occupied[previous_pos] = null
 					turn = 0 if selected_piece.get_colour() == -1 else -1
@@ -27,12 +32,17 @@ func _unhandled_input(event):
 				var grid2 = Vector2i(grid_pos.x, grid_pos.y)
 				var prevous_pos = selected_piece.get_pos()
 				var checker
+				#checking for pawn takeover
 				if (selected_piece._get_piece_type() == 0):
 					checker = selected_piece.try_pawn_take_over(grid2, tilemap.map_to_local(grid2))
 				else:
 					checker = selected_piece.try_take_over(grid2, tilemap.map_to_local(grid2))
 				selected_piece._unselect()
 				if checker:
+					if selected_piece._get_piece_type() == 0:
+						var promoted_piece = selected_piece.promotion_to_queen(grid2, tilemap.map_to_local(grid2))
+						if promoted_piece != null:
+							selected_piece = promoted_piece
 					var old_piece = occupied[grid_pos]
 					old_piece.visible = false
 					old_piece.set_deferred("monitoring", false)

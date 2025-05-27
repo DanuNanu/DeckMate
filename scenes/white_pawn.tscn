@@ -17,7 +17,7 @@ var colour
 const TILE_SIZE = 16
 
 signal piece_selected(Area2D)
-
+@onready var board:Node2D = get_parent()
 @onready var tilemap: TileMap = get_parent().get_node(\"TileMap\")
 @onready var collider: CollisionShape2D = $CollisionShape2D
 
@@ -108,7 +108,24 @@ func try_pawn_take_over(target_tile: Vector2i, tile_pos: Vector2) -> bool:
 #implement en passant
 #idea to implement take over if a piece of a different colour occupies the same space as piece of another colour remove the piece
 
-	
+func promotion_to_queen(target_tile: Vector2i, tile_pos:Vector2) -> Area2D:
+	if position_on_grid.y == 7:
+		var queen_scene = preload(\"res://scenes/white_queen.tscn\")
+		var queen = queen_scene.instantiate()
+		board.add_child(queen)
+		queen.global_position = tile_pos
+		queen.intial_pos_setter(target_tile)
+		queen.connect(\"mouse_entered\", Callable(queen, \"_on_mouse_entered\"))
+		queen.connect(\"mouse_exited\", Callable(queen,\"_on_mouse_exited\"))
+		queen.connect(\"piece_selected\", Callable(board, \"_on_piece_selected\"))
+		queen.input_pickable = true
+		queen.just_moved = true
+		self.visible = false
+		collider.disabled = true
+		print(\"white pawn promoted to white queen\")
+		return queen
+	else:
+		return null
 
 
 func _on_mouse_entered() -> void:
