@@ -90,6 +90,7 @@ func _ready() -> void:
 
 func try_move_to(target_tile: Vector2i, tile_pos: Vector2)-> bool:
 	var dx = target_tile.x - position_on_grid.x
+	var occupied = board.get_occupied()
 	var dy = target_tile.y - position_on_grid.y
 	var direction = -1 if colour == Piece_colour.BLACK else 1
 	if is_selected :
@@ -106,6 +107,34 @@ func try_move_to(target_tile: Vector2i, tile_pos: Vector2)-> bool:
 			position_on_grid = target_tile
 			global_position = tile_pos
 			print("Moved Black pawn to ", position_on_grid, " (world position: ", global_position, ")" )
+			sprite.modulate = Color(1,1,1)
+			highlight_map.clear()
+			return true
+		elif (dx == 1 and dy == -1 and occupied[Vector2i(target_tile.x, position_on_grid.y)] != null and occupied[Vector2i(target_tile.x, position_on_grid.y)].get_colour() != self.colour and occupied[Vector2i(target_tile.x, position_on_grid.y)].piece_type == 0):
+			var piece = occupied[Vector2i(target_tile.x, position_on_grid.y)]
+			occupied[Vector2i(target_tile.x, position_on_grid.y)] = null
+			piece.visible = false
+			piece.set_deferred("monitoring", false)
+			var shape = piece.get_collider()
+			shape.disabled
+			print("ent passant, black pawn takes piece")
+			just_moved = true
+			position_on_grid = target_tile
+			global_position = tile_pos
+			sprite.modulate = Color(1,1,1)
+			highlight_map.clear()
+			return true
+		elif (dx == -1 and dy == -1 and occupied[Vector2i(target_tile.x, position_on_grid.y)] != null and occupied[Vector2i(target_tile.x, position_on_grid.y)].get_colour() != self.colour and  occupied[Vector2i(target_tile.x, position_on_grid.y)].piece_type == 0):
+			var piece = occupied[Vector2i(target_tile.x, position_on_grid.y)]
+			occupied[Vector2i(target_tile.x, position_on_grid.y)] = null
+			piece.visible = false
+			piece.set_deferred("monitoring", false)
+			var shape = piece.get_collider()
+			shape.disabled
+			print("ent passant, black pawn takes piece")
+			just_moved = true
+			position_on_grid = target_tile
+			global_position = tile_pos
 			sprite.modulate = Color(1,1,1)
 			highlight_map.clear()
 			return true
@@ -197,11 +226,14 @@ func get_moves()->Array:
 		
 	for dx in [1,-1]:
 		var diagnol = position_on_grid + Vector2i(dx, direction)
-		if (diagnol.x < 0 or diagnol.x > 7 or diagnol.y < 0 or diagnol.y > 0):
+		if (diagnol.x < 0 or diagnol.x > 7 or diagnol.y < 0 or diagnol.y > 7):
 			continue
 		var piece = occupied[diagnol]
 		if piece != null and piece.get_colour() != self.colour:
 			moves.append(tilemap.map_to_local(diagnol))
+		if (piece == null and occupied[Vector2i(diagnol.x,position_on_grid.y)]!= null and occupied[Vector2i(diagnol.x, position_on_grid.y)].colour != self.colour and occupied[Vector2i(diagnol.x, position_on_grid.y)].piece_type == 0):
+			moves.append(tilemap.map_to_local(diagnol))
+			
 			
 	return moves
 	
