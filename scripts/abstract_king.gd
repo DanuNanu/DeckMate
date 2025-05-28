@@ -15,6 +15,11 @@ const TILE_SIZE = 16
 @onready var sprite:= $Sprite2D
 @onready var tilemap: TileMap = get_parent().get_node("TileMap")
 @onready var highlight_map := get_parent().get_node("Highlight")
+var offsets = [
+	Vector2i(-1, -1), Vector2i(0, -1), Vector2i(1, -1),
+	Vector2i(-1, 0), Vector2i(1, 0),
+	Vector2i(-1, 1),  Vector2i(0, 1),  Vector2i(1, 1)
+]
 
 
 func _select()->void:
@@ -68,3 +73,17 @@ func _on_mouse_entered() -> void:
 
 func _on_mouse_exited() -> void:
 	is_hovered = false
+	
+	
+func get_moves()->Array:
+	var occupied = board.get_occupied()
+	var moves = []
+	for offset in offsets:
+		var new_pos = position_on_grid + offset
+		if new_pos.x < 0 or new_pos.x>7 or new_pos.y < 0 or new_pos.y > 7:
+			continue
+		if occupied[new_pos] != null:
+			if occupied[new_pos].colour == self.colour:
+				continue
+		moves.append(tilemap.map_to_local(new_pos))
+	return moves

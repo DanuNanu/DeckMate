@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://c6aqk0ppdhd17"]
+[gd_scene load_steps=20 format=3 uid="uid://c6aqk0ppdhd17"]
 
 [ext_resource type="Script" path="res://scripts/board.gd" id="1_421dt"]
 [ext_resource type="PackedScene" uid="uid://c7g7o7xku154v" path="res://scenes/tile_map.tscn" id="2_i8235"]
@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://b7q3nq7ocivfp" path="res://scenes/black_pawn.tscn" id="5_mot7x"]
 [ext_resource type="FontFile" uid="uid://c3k4oxvcg4gvt" path="res://assets/Fake Receipt.otf" id="15_66u8v"]
 [ext_resource type="PackedScene" uid="uid://c0ipvqk14ddv" path="res://scenes/option_button.tscn" id="16_722ir"]
+[ext_resource type="Script" path="res://scripts/snapshot.gd" id="18_gpqp6"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ewjqd"]
 font = ExtResource("15_66u8v")
@@ -46,7 +47,7 @@ position_on_grid = Vector2i(4, 0)
 position = Vector2(72, 119)
 position_on_grid = Vector2i(4, 7)
 
-[node name="White_Queen" parent="." instance=ExtResource("3_1pm87")]
+[node name="white_Queen" parent="." instance=ExtResource("3_1pm87")]
 position = Vector2(56, 7)
 position_on_grid = Vector2i(3, 0)
 
@@ -153,7 +154,7 @@ position_on_grid = Vector2i(3, 6)
 position = Vector2(40, 101)
 position_on_grid = Vector2i(2, 6)
 
-[node name="Black_pawn" parent="." instance=ExtResource("5_mot7x")]
+[node name="black_pawn8" parent="." instance=ExtResource("5_mot7x")]
 position = Vector2(8, 101)
 position_on_grid = Vector2i(0, 6)
 
@@ -177,6 +178,10 @@ offset_bottom = 164.0
 alignment = 1
 icon_alignment = 1
 
+[node name="snapshot" type="Node2D" parent="."]
+script = ExtResource("18_gpqp6")
+
+[connection signal="property_list_changed" from="." to="." method="_on_property_list_changed"]
 [connection signal="ready" from="TileMap" to="." method="_on_tile_map_ready"]
 [connection signal="ready" from="TileMap" to="TileMap" method="_on_ready"]
 [connection signal="draw" from="Highlight" to="Highlight" method="_on_draw"]
