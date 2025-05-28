@@ -84,6 +84,14 @@ func _unhandled_input(event):
 				#else for when selected piece same colour
 			else:
 				if selected_piece:
+					if selected_piece._get_piece_type() == 1 || selected_piece._get_piece_type() == 5:
+						input_lock = true
+						var previous_pos = selected_piece.get_pos()
+						var checker = selected_piece.try_castelling(grid_pos,tilemap.map_to_local(grid_pos))
+						if checker:
+							occupied[selected_piece.get_pos()]= selected_piece
+							occupied[previous_pos] = null
+							turn = 0 if selected_piece.get_colour() == -1 else -1
 					selected_piece._unselect()
 				selected_piece = null
 				input_lock = false

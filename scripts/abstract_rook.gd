@@ -7,6 +7,7 @@ enum Piece_type {PAWN = 0, ROOK = 1, KNIGHT = 2, BISHOP = 3, QUEEN = 4, KING = 5
 enum Piece_colour {WHITE = 0, BLACK = -1}
 var piece_type 
 var colour
+var has_moved = false
 const TILE_SIZE = 16
 @onready var collider: CollisionShape2D = $CollisionShape2D
 @onready var board: Node2D = get_parent()
@@ -70,6 +71,9 @@ func is_cleared(target_tile: Vector2i, current_pos: Vector2i) -> bool:
 			return false
 		current += direction_vec
 	return true
+	
+func global_setter(pos: Vector2) -> void:
+	global_position = pos
 	
 func get_moves() -> Array:
 	var moves = []

@@ -8,12 +8,13 @@ enum Piece_type {PAWN = 0, ROOK = 1, KNIGHT = 2, BISHOP = 3, QUEEN = 4, KING = 5
 enum Piece_colour {WHITE = 0, BLACK = -1}
 var piece_type 
 var colour
+var has_moved = false
 const TILE_SIZE = 16
 @onready var collider: CollisionShape2D = $CollisionShape2D
 @onready var board: Node2D = get_parent()
 @onready var sprite:= $Sprite2D
 @onready var tilemap: TileMap = get_parent().get_node("TileMap")
-
+@onready var highlight_map := get_parent().get_node("Highlight")
 
 
 func _select()->void:
@@ -46,6 +47,9 @@ func get_pos()->Vector2i:
 
 func get_collider() -> CollisionShape2D:
 	return collider
+	
+func global_setter(pos: Vector2) -> void:
+	global_position = pos
 
 func is_cleared(target_tile: Vector2i, current_pos: Vector2i) -> bool:
 	var direction_vec = (target_tile - current_pos).sign()
