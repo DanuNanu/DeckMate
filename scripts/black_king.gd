@@ -46,7 +46,7 @@ func try_castelling(target_tile:Vector2i, tile_pos: Vector2) -> bool:
 				has_moved = true
 				rook.has_moved = true
 				position_on_grid = Vector2i(2,7)
-				global_position = tilemap.map_to_local(Vector2i(32,7))
+				global_position = tilemap.map_to_local(Vector2i(2,7))
 				occupied[Vector2i(3,7)] = rook
 				rook.position_on_grid = Vector2i(3,7)
 				rook.global_setter(tilemap.map_to_local(Vector2i(3,7)))
